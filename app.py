@@ -58,22 +58,26 @@ from flask import Flask, jsonify, render_template_string, request, redirect, url
 
 app = Flask(__name__)
 
-"""dispositivos = {
-  "id": "",
-  "nombre": "",
-  "descripcion": "",
-  "ip": "",
-  "mac": "",
-  "ubicacion": "",
-  "tipo": "",
-  "otros": ""
-}"""
+dispositivos = {
+}
 
-@app.route('/agregar', methods=['GET'])
-def aregar_dispositivo():
-    recu = request.json
+@app.route('/mostrar', methods=['GET'])
+def mostrar_dispositivo():
+    return dispositivos
+
+@app.route('/agregar', methods=['POST'])
+def agregar_dispositivo():
     print("Datos recibidos", request.json)
-    return recu
+    valores = request.json
+    dispositivos["id"] = valores['id']
+    dispositivos["nombre"] = valores['nombre']
+    dispositivos["descripcion"] = valores['descripcion']
+    dispositivos["ip"] = valores['ip']
+    dispositivos["mac"] = valores['mac']
+    dispositivos["ubicacion"] = valores['ubicacion']
+    dispositivos["tipo"] = valores['tipo']
+    dispositivos["otros"] = valores['otros']
+    return dispositivos
    
    
 if __name__ == '__main__':

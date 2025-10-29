@@ -1,7 +1,7 @@
 """
 Examen Unidad III 
-Autor: [Tu Nombre]
-Fecha: [Fecha Actual]
+Autor: [Rosales Garcia Oscar]
+Fecha: [29/10/2025]
 
 Descripción:
 Objetivo del examen
@@ -58,9 +58,23 @@ from flask import Flask, jsonify, render_template_string, request, redirect, url
 
 app = Flask(__name__)
 
-@app.route('/', methods=['GET'])
-def test():
-   return "Hola mundo" 
+"""dispositivos = {
+  "id": "",
+  "nombre": "",
+  "descripcion": "",
+  "ip": "",
+  "mac": "",
+  "ubicacion": "",
+  "tipo": "",
+  "otros": ""
+}"""
+
+@app.route('/agregar', methods=['GET'])
+def aregar_dispositivo():
+    recu = request.json
+    print("Datos recibidos", request.json)
+    return recu
+   
    
 if __name__ == '__main__':
     app.run(debug=True)

@@ -61,23 +61,57 @@ app = Flask(__name__)
 dispositivos = {
 }
 
+html = """
+<html>
+    <body>
+        <h1> Lista de dispositivos </h1>
+
+        {% for dispositivo in dispositivos %}
+        <div style="border: 1px solid #ccc; margin: 10px">
+            <h3> {{ dispositivo.nombre }} </h3>
+            <p><strong>"ID:"</strong>{{ dispositivo.id }}</p>
+            <p><strong>"Descripcion:"</strong>{{ dispositivo.descripcion }}</p>
+            <p><strong>"IP:"</strong>{{ dispositivo.ip }}</p>
+            <p><strong>"MAC:"</strong>{{ dispositivo.mac }}</p>
+            <p><strong>"Ubicacion:"</strong>{{ dispositivo.ubicacion }}</p>
+            <p><strong>"Tipo:"</strong>{{ dispositivo.tipo }}</p>
+            <p><strong>"Otros:"</strong>{{ dispositivo.otros }}</p>
+        </div>
+        {% endfor %}
+    </body>
+</html>
+"""
+
 @app.route('/mostrar', methods=['GET'])
 def mostrar_dispositivo():
-    return dispositivos
+    dispo_lista = list(dispositivos.values())
+    return render_template_string(html, dispositivos = dispo_lista)
 
 @app.route('/agregar', methods=['POST'])
 def agregar_dispositivo():
+    
     print("Datos recibidos", request.json)
+    
     valores = request.json
-    dispositivos["id"] = valores['id']
-    dispositivos["nombre"] = valores['nombre']
-    dispositivos["descripcion"] = valores['descripcion']
-    dispositivos["ip"] = valores['ip']
-    dispositivos["mac"] = valores['mac']
-    dispositivos["ubicacion"] = valores['ubicacion']
-    dispositivos["tipo"] = valores['tipo']
-    dispositivos["otros"] = valores['otros']
-    return dispositivos
+    
+    nuevo_dispo = {
+        "id": valores.get('id', ''),
+        "nombre": valores.get('nombre', ''),
+        "descripcion": valores.get('descripcion', ''),
+        "ip": valores.get('ip', ''),
+        "mac": valores.get('mac', ''),
+        "ubicacion": valores.get('ubicacion', ''),
+        "tipo": valores.get('tipo', ''),
+        "otros": valores.get('otros', '')
+    }
+
+    dispo_id = valores['id']
+
+    dispositivos[dispo_id] = nuevo_dispo 
+
+    return jsonify({
+        "mensaje:": "Dispositivo registrado"
+    })
    
    
 if __name__ == '__main__':

@@ -112,6 +112,37 @@ def agregar_dispositivo():
     return jsonify({
         "mensaje:": "Dispositivo registrado"
     })
+
+@app.route('/modificar/<dispo_id>', methods=['PUT'])
+def modificar(dispo_id):
+    datos = request.json
+
+    dispo_id = datos['id']
+
+    if dispo_id not in dispositivos:
+        html = "<h1>Id no encontrada </h1>"
+        return html
+    
+    dispositivo = dispositivos[dispo_id]
+
+    if 'nombre' in datos:
+        dispositivo['nombre']= datos['nombre']
+    if 'descripcion' in datos:
+        dispositivo['descripcion'] = datos['descripcion']
+    if 'ip' in datos:
+        dispositivo['ip'] = datos['ip']
+    if 'mac' in datos:
+        dispositivo['mac'] = datos['mac']
+    if 'ubicacion' in datos:
+        dispositivo['ubicacion'] = datos['ubicacion']
+    if 'tipo' in datos:
+        dispositivo['tipo'] = datos['tipo']
+    if 'otros' in datos:
+        dispositivo['otros'] = datos['otros']
+
+    return jsonify({
+        "mensaje": "Dispositivo modificado"
+    })
    
    
 if __name__ == '__main__':
